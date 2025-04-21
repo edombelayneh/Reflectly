@@ -140,8 +140,7 @@ const ReflectlyLandingPage = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppBar position="static" color="inherit">
-        {/* <Toolbar sx={{ justifyContent: 'space-between' }}> */}
-        <Toolbar sx={{ justifyContent: 'space-between', minHeight: 20 }}>
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Typography variant="h6" sx={{ fontWeight: 700 }}>Reflectly</Typography>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <IconButton color="inherit" onClick={toggleTheme}>
