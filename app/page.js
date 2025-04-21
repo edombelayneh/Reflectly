@@ -10,7 +10,7 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import ApiIcon from '@mui/icons-material/Api';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { SelfImprovement, Favorite } from '@mui/icons-material';
-import { SignedOut, SignInButton } from '@clerk/nextjs';
+import { SignedOut, SignedIn, SignInButton } from '@clerk/nextjs';
 import { useTheme } from '@mui/material';
 
 const ReflectlyLandingPage = () => {
@@ -101,7 +101,7 @@ const ReflectlyLandingPage = () => {
             </ListItem>
           </List>
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 4 }}>
+          {/* <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 4 }}>
             <SignedOut>
               <SignInButton mode="modal" redirectUrl="/dashboard">
                 <Button variant="contained" size="large">Get Started</Button>
@@ -116,7 +116,35 @@ const ReflectlyLandingPage = () => {
             >
               Explore Features
             </Button>
+          </Box> */}
+          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 4 }}>
+            <SignedOut>
+              <SignInButton mode="modal" redirectUrl="/dashboard">
+                <Button variant="contained" size="large">Get Started</Button>
+              </SignInButton>
+            </SignedOut>
+
+            <SignedIn>
+              <Button
+                variant="contained"
+                size="large"
+                onClick={() => window.location.href = '/dashboard'}
+              >
+                Dashboard
+              </Button>
+            </SignedIn>
+
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={() => {
+                document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              Explore Features
+            </Button>
           </Box>
+
         </Box>
       </Container>
 
