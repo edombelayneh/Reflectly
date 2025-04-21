@@ -154,7 +154,7 @@ export default function JournalPage() {
             color="text.secondary"
             sx={{ fontFamily: theme.typography.fontFamily, textAlign: 'center', mt: 2 }}
           >
-            No entries yet — your thoughts are safe here when you're ready.
+            No entries yet — your thoughts are safe here when you&apos;re ready.
           </Typography>
         )}
 
