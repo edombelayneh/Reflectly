@@ -46,8 +46,9 @@ const DashboardPage = () => {
     setReminder("Take 5 minutes to breathe this afternoon.");
   }, [prefersDarkMode]);
 
+  const toggleTheme = () => setDarkMode(!darkMode);
 
-  
+ 
 
   const cards = [
     {
