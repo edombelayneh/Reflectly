@@ -79,7 +79,7 @@ const ReflectlyLandingPage = () => {
             paragraph
             sx={{ animation: 'fadeSlideUp 1.5s ease-in-out' }}
           >
-            A warm and thoughtful space to reflect on your day, your emotions, and your growth.
+            Your Mind&apos;s Favorite Place to Breathe
           </Typography>
 
           <Typography align="center" sx={{ mt: 2, fontSize: 18, color: 'text.secondary' }}>
