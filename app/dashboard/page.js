@@ -7,10 +7,12 @@
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
 // import { LightMode, DarkMode, Add as AddIcon } from '@mui/icons-material';
 // import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
+// import { useRouter } from 'next/navigation';
 
 // const DashboardPage = () => {
 //   const [darkMode, setDarkMode] = React.useState(false);
 //   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+//   const router = useRouter();
 
 //   React.useEffect(() => {
 //     setDarkMode(prefersDarkMode);
@@ -88,8 +90,9 @@
 //   };
 //   const handleSelect = (option) => {
 //     handleClose();
-//     console.log("Selected:", option);
-//     // Add routing or modal logic here
+//     if (option === 'journal') router.push('/journal');
+//     else if (option === 'checkIn') router.push('/moodCheckIn');
+//     else if (option === 'care') router.push('/selfcare');
 //   };
 
 //   return (
@@ -138,7 +141,7 @@
 //       <Fab
 //         sx={{
 //           position: 'fixed',
-//           top: 120,
+//           top: 150,
 //           right: 30,
 //           zIndex: 999,
 //           backgroundColor: darkMode ? '#FAE1DD' : '#FCD5CE',
@@ -161,8 +164,8 @@
 //         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 //       >
 //         <MenuItem onClick={() => handleSelect("journal")}>✍️ New Journal Entry</MenuItem>
-//         <MenuItem onClick={() => handleSelect("reminder")}>🧘 Add Mindfulness Reminder</MenuItem>
-//         <MenuItem onClick={() => handleSelect("goal")}>🎯 Add Goal</MenuItem>
+//         <MenuItem onClick={() => handleSelect("checkIn")}>🧘 Mood Check-In</MenuItem>
+//         <MenuItem onClick={() => handleSelect("care")}>🎯 Self-Care</MenuItem>
 //       </Menu>
 //     </ThemeProvider>
 //   );
@@ -170,7 +173,8 @@
 
 // export default DashboardPage;
 
-'use client'
+'use client';
+
 import React from 'react';
 import {
   Container, Typography, Box, Grid, Paper, CssBaseline,
@@ -186,8 +190,33 @@ const DashboardPage = () => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const router = useRouter();
 
+  const [journalEntry, setJournalEntry] = React.useState('');
+  const [moodStats, setMoodStats] = React.useState('');
+  const [goalStatus, setGoalStatus] = React.useState('');
+  const [affirmation, setAffirmation] = React.useState('');
+  const [reminder, setReminder] = React.useState('');
+
   React.useEffect(() => {
     setDarkMode(prefersDarkMode);
+
+    // Load real data
+    const storedEntries = JSON.parse(localStorage.getItem('journalEntries')) || [];
+    if (storedEntries.length) {
+      setJournalEntry(storedEntries[0].text);
+    }
+
+    const storedMood = JSON.parse(localStorage.getItem('moodData'));
+    if (storedMood?.energy) {
+      setMoodStats(`You've had ${storedMood.energy} energy lately. Stay mindful!`);
+    }
+
+    const storedGoal = localStorage.getItem('gratitudeGoalDays');
+    if (storedGoal) {
+      setGoalStatus(`You're ${storedGoal} days into your gratitude habit.`);
+    }
+
+    setAffirmation("You are growing, even if it's not obvious yet.");
+    setReminder("Take 5 minutes to breathe this afternoon.");
   }, [prefersDarkMode]);
 
   const toggleTheme = () => setDarkMode(!darkMode);
@@ -244,12 +273,30 @@ const DashboardPage = () => {
     }), [darkMode]);
 
   const cards = [
-    { title: "Today’s Reflection", content: "No entry yet. Take a moment to reflect and write how you feel today." },
-    { title: "Mood Overview", content: "You've been feeling great 4 days this week. Keep it up!" },
-    { title: "Reminder", content: "Take 5 minutes for deep breathing at 4 PM today." },
-    { title: "Recent Entries", content: "Your last journal entry was about feeling grateful. Want to build on that?" },
-    { title: "Daily Affirmation", content: "You are growing, even if it's not obvious yet." },
-    { title: "Goal Tracker", content: "You're 3 days into your new gratitude habit. Keep going!" }
+    {
+      title: "Today’s Reflection",
+      content: journalEntry || "No entry yet. Take a moment to reflect and write how you feel today."
+    },
+    {
+      title: "Mood Overview",
+      content: moodStats || "Check in to see your mood trends."
+    },
+    {
+      title: "Reminder",
+      content: reminder
+    },
+    {
+      title: "Recent Entries",
+      content: journalEntry ? `Your last journal entry: "${journalEntry}"` : "No journal entries yet."
+    },
+    {
+      title: "Daily Affirmation",
+      content: affirmation
+    },
+    {
+      title: "Goal Tracker",
+      content: goalStatus || "No goal progress yet. Set one to get started!"
+    }
   ];
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -263,8 +310,8 @@ const DashboardPage = () => {
   const handleSelect = (option) => {
     handleClose();
     if (option === 'journal') router.push('/journal');
-    else if (option === 'reminder') router.push('/reminder');
-    else if (option === 'goal') router.push('/goal');
+    else if (option === 'checkIn') router.push('/moodCheckIn');
+    else if (option === 'care') router.push('/selfcare');
   };
 
   return (
@@ -309,7 +356,6 @@ const DashboardPage = () => {
         </Grid>
       </Container>
 
-      {/* Floating Add Button */}
       <Fab
         sx={{
           position: 'fixed',
@@ -336,12 +382,11 @@ const DashboardPage = () => {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <MenuItem onClick={() => handleSelect("journal")}>✍️ New Journal Entry</MenuItem>
-        <MenuItem onClick={() => handleSelect("reminder")}>🧘 Add Mindfulness Reminder</MenuItem>
-        <MenuItem onClick={() => handleSelect("goal")}>🎯 Add Goal</MenuItem>
+        <MenuItem onClick={() => handleSelect("checkIn")}>🧘 Mood Check-In</MenuItem>
+        <MenuItem onClick={() => handleSelect("care")}>🎯 Self-Care</MenuItem>
       </Menu>
     </ThemeProvider>
   );
 };
 
 export default DashboardPage;
-
