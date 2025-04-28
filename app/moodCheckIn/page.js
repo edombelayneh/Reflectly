@@ -102,6 +102,10 @@ export default function MoodCheckInPage() {
   const router = useRouter();
   const theme = useTheme();
 
+  const handleBack = () => {
+    router.push('/dashboard');
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -133,7 +137,7 @@ export default function MoodCheckInPage() {
   return (
     <Container sx={{ py: 6 }}>
       {/* Back Button */}
-      <IconButton onClick={() => router.back()} sx={{ mb: 2 }}>
+      <IconButton onClick={handleBack} sx={{ mb: 2 }}>
         <ArrowBackIcon />
       </IconButton>
 
