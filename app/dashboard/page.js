@@ -131,7 +131,7 @@ const DashboardPage = () => {
           Welcome Back 💫
         </Typography>
         <Typography variant="subtitle1" align="center" sx={{ mb: 4, color: 'text.secondary' }}>
-          Let's check in with yourself.
+          Let&apos;s check in with yourself.
         </Typography>
 
         <Grid container spacing={4} justifyContent="center">
