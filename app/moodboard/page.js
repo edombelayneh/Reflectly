@@ -112,7 +112,7 @@ export default function MoodboardPage() {
           color: theme.palette.text.secondary
         }}
       >
-        "{extraQuote}"
+        {extraQuote}
       </Box>
 
       <Button
